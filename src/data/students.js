@@ -2069,8 +2069,8 @@ export const itDStudents = [{
       "rollNo": "2300320130292",
       "admissionNo": "2023B0131212",
       "name": "ZOHADUR RAHMAN JAFRI",
-      "githubRepo": "https://github.com/rv-unq/FSD-5th",
-      "githubUsername": "rv-unq"
+      "githubRepo": null,
+      "githubUsername": null
     }
   ];
 
