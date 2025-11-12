@@ -9,7 +9,8 @@ import {
   GitCommit,
   Calendar,
   AlertCircle,
-  CheckCircle
+  CheckCircle,
+  Trophy
 } from 'lucide-react';
 import { sections } from '../data/students';
 import githubService from '../services/githubService';
@@ -235,6 +236,9 @@ const SectionPage = () => {
       console.log('All students processed:', studentsWithData);
       // final merge to ensure state is complete
       mergeIntoState(studentsWithData);
+      // Save students to sessionStorage for TopPerformers page
+      const key = `section_${sectionId}_students`;
+      sessionStorage.setItem(key, JSON.stringify(studentsWithData));
     } catch (error) {
       console.error('Error loading student data:', error);
       toast.error('Failed to load student data');
@@ -368,50 +372,66 @@ const SectionPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Header */}
-      <div className="bg-white shadow-sm">
+      <div className="bg-black/50 backdrop-blur-md border-b border-white/10 shadow-lg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => navigate('/')}
-                className="flex items-center text-gray-600 hover:text-gray-900"
+                className="flex items-center text-gray-300 hover:text-white transition-colors group"
               >
-                <ArrowLeft className="h-5 w-5 mr-2" />
+                <ArrowLeft className="h-5 w-5 mr-2 group-hover:translate-x-1 transition-transform" />
                 Back to Home
               </button>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                   {section.name}
                 </h1>
-                <div className="flex flex-wrap gap-4 items-center text-gray-600 text-sm mt-1">
-                  <span>{students.length} students</span>
-                  <span>• {noRepoCount} no repo</span>
-                  <span>• {zeroCommitsCount} with 0 commits</span>
-                  <span>• GitHub repository tracking</span>
+                <div className="flex flex-wrap gap-4 items-center text-gray-400 text-sm mt-1">
+                  <span className="flex items-center gap-1">
+                    <Users className="h-4 w-4" /> {students.length} students
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <Github className="h-4 w-4" /> {noRepoCount} no repo
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <GitCommit className="h-4 w-4" /> {zeroCommitsCount} with 0 commits
+                  </span>
                 </div>
-        {/* Download Excel at bottom */}
-        <div className="flex justify-end mt-8">
-          <button
-            onClick={handleDownloadExcel}
-            className="btn btn-outline flex items-center"
-            title="Download Excel"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" /></svg>
-            Download Excel
-          </button>
-        </div>
               </div>
             </div>
-            
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-3 flex-wrap">
             <button
               onClick={refreshData}
               disabled={refreshing}
-              className="btn btn-primary flex items-center"
+              className="btn btn-primary flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
             >
-              <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
               {refreshing ? 'Refreshing...' : 'Refresh Data'}
+            </button>
+
+            <button
+              onClick={() => navigate(`/top-performers/${sectionId}`)}
+              className="btn btn-secondary flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all"
+            >
+              <Trophy className="h-5 w-5" />
+              Top Performers
+            </button>
+
+            <button
+              onClick={handleDownloadExcel}
+              className="btn btn-outline flex items-center gap-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all"
+              title="Download Excel"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" /></svg>
+              Download Excel
             </button>
           </div>
         </div>
@@ -421,46 +441,50 @@ const SectionPage = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <Users className="h-8 w-8 text-blue-600" />
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Total Students</p>
-                <p className="text-2xl font-semibold text-gray-900">{students.length}</p>
+          <div className="group relative bg-gradient-to-br from-slate-700/50 to-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-600/50 hover:border-blue-400/50 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-300"></div>
+            <div className="relative z-10 flex items-center">
+              <Users className="h-10 w-10 text-blue-400 mr-4 group-hover:scale-110 transition-transform" />
+              <div>
+                <p className="text-sm font-medium text-gray-400">Total Students</p>
+                <p className="text-3xl font-bold text-white">{students.length}</p>
               </div>
             </div>
           </div>
           
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <Github className="h-8 w-8 text-green-600" />
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">With Repositories</p>
-                <p className="text-2xl font-semibold text-gray-900">
+          <div className="group relative bg-gradient-to-br from-slate-700/50 to-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-600/50 hover:border-green-400/50 hover:shadow-xl hover:shadow-green-500/20 transition-all duration-300">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-600/10 to-transparent opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-300"></div>
+            <div className="relative z-10 flex items-center">
+              <Github className="h-10 w-10 text-green-400 mr-4 group-hover:scale-110 transition-transform" />
+              <div>
+                <p className="text-sm font-medium text-gray-400">With Repositories</p>
+                <p className="text-3xl font-bold text-white">
                   {students.filter(s => s.githubRepo).length}
                 </p>
               </div>
             </div>
           </div>
           
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <GitCommit className="h-8 w-8 text-purple-600" />
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Total Commits</p>
-                <p className="text-2xl font-semibold text-gray-900">
+          <div className="group relative bg-gradient-to-br from-slate-700/50 to-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-600/50 hover:border-purple-400/50 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-transparent opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-300"></div>
+            <div className="relative z-10 flex items-center">
+              <GitCommit className="h-10 w-10 text-purple-400 mr-4 group-hover:scale-110 transition-transform" />
+              <div>
+                <p className="text-sm font-medium text-gray-400">Total Commits</p>
+                <p className="text-3xl font-bold text-white">
                   {students.reduce((sum, s) => sum + (s.totalCommits || 0), 0)}
                 </p>
               </div>
             </div>
           </div>
           
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <CheckCircle className="h-8 w-8 text-orange-600" />
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Active Students</p>
-                <p className="text-2xl font-semibold text-gray-900">
+          <div className="group relative bg-gradient-to-br from-slate-700/50 to-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-600/50 hover:border-orange-400/50 hover:shadow-xl hover:shadow-orange-500/20 transition-all duration-300">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-600/10 to-transparent opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-300"></div>
+            <div className="relative z-10 flex items-center">
+              <CheckCircle className="h-10 w-10 text-orange-400 mr-4 group-hover:scale-110 transition-transform" />
+              <div>
+                <p className="text-sm font-medium text-gray-400">Active Students</p>
+                <p className="text-3xl font-bold text-white">
                   {students.filter(s => s.totalCommits > 0).length}
                 </p>
               </div>
@@ -470,21 +494,21 @@ const SectionPage = () => {
 
         {/* Duplicate warnings banner */}
         {duplicateWarnings.length > 0 && (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-              <p className="text-sm text-yellow-800">Warning: duplicate student entries were found and removed on load. Showing {students.length} unique students. Example keys: {duplicateWarnings.join(', ')}</p>
+          <div className="max-w-7xl mx-auto px-0 sm:px-0 lg:px-0 py-3 mb-6">
+            <div className="bg-gradient-to-r from-yellow-600/30 to-orange-600/30 border-l-4 border-yellow-400 p-4 rounded-lg backdrop-blur-sm">
+              <p className="text-sm text-yellow-200">⚠️ Warning: duplicate student entries were found and removed on load. Showing {students.length} unique students. Example keys: {duplicateWarnings.join(', ')}</p>
             </div>
           </div>
         )}
 
         {/* Filters and Search */}
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
+        <div className="bg-gradient-to-br from-slate-700/50 to-slate-800/50 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-slate-600/50">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
               <input
                 type="text"
                 placeholder="Search by name, roll number, or admission number..."
-                className="input"
+                className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -494,7 +518,7 @@ const SectionPage = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="input"
+                className="px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
               >
                 <option value="name">Sort by Name</option>
                 <option value="rollNo">Sort by Roll No</option>
@@ -503,7 +527,7 @@ const SectionPage = () => {
               
               <button
                 onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                className="btn btn-outline"
+                className="px-4 py-3 bg-gradient-to-r from-slate-700 to-slate-800 border border-slate-600 hover:border-blue-400 rounded-lg text-white font-semibold transition-all hover:shadow-lg"
               >
                 {sortOrder === 'asc' ? '↑' : '↓'}
               </button>
@@ -512,118 +536,181 @@ const SectionPage = () => {
         </div>
 
         {/* Students Table */}
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-gradient-to-br from-slate-700/30 to-slate-800/30 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-600/50 overflow-hidden">
           {loading ? (
-            <div className="flex items-center justify-center py-12">
-              <RefreshCw className="h-8 w-8 animate-spin text-blue-500" />
-              <span className="ml-2 text-gray-600">Loading student data...</span>
+            <div className="flex items-center justify-center py-16">
+              <RefreshCw className="h-10 w-10 animate-spin text-blue-400 mr-3" />
+              <span className="text-lg text-gray-300">Loading student data...</span>
             </div>
           ) : filteredAndSortedStudents.length === 0 ? (
-            <div className="text-center py-12">
-              <Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No students found</h3>
-              <p className="text-gray-500">
+            <div className="text-center py-16">
+              <Users className="h-16 w-16 text-gray-500 mx-auto mb-4 opacity-50" />
+              <h3 className="text-lg font-medium text-gray-300 mb-2">No students found</h3>
+              <p className="text-gray-400">
                 {searchTerm ? 'Try adjusting your search criteria' : 'No students in this section'}
               </p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Roll No
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Admission No
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Name
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      GitHub Username
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Total Commits
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Total LOC
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Recent Commit
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {filteredAndSortedStudents.map((student) => (
-                    <tr key={student._id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
+            <>
+              {/* Desktop Table View */}
+              <div className="hidden lg:block overflow-x-auto">
+                <table className="min-w-full divide-y divide-slate-700">
+                  <thead className="bg-gradient-to-r from-slate-800 to-slate-700 sticky top-0">
+                    <tr>
+                      <th className="px-6 py-4 text-left text-xs font-bold text-blue-300 uppercase tracking-wider">Status</th>
+                      <th className="px-6 py-4 text-left text-xs font-bold text-blue-300 uppercase tracking-wider">Roll No</th>
+                      <th className="px-6 py-4 text-left text-xs font-bold text-blue-300 uppercase tracking-wider">Admission No</th>
+                      <th className="px-6 py-4 text-left text-xs font-bold text-blue-300 uppercase tracking-wider">Name</th>
+                      <th className="px-6 py-4 text-left text-xs font-bold text-blue-300 uppercase tracking-wider">GitHub Username</th>
+                      <th className="px-6 py-4 text-left text-xs font-bold text-blue-300 uppercase tracking-wider">Total Commits</th>
+                      <th className="px-6 py-4 text-left text-xs font-bold text-blue-300 uppercase tracking-wider">Total LOC</th>
+                      <th className="px-6 py-4 text-left text-xs font-bold text-blue-300 uppercase tracking-wider">Recent Commit</th>
+                      <th className="px-6 py-4 text-left text-xs font-bold text-blue-300 uppercase tracking-wider">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-700">
+                    {filteredAndSortedStudents.map((student) => (
+                      <tr key={student._id} className="hover:bg-slate-700/50 transition-colors duration-200 group">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {getStatusIcon(student)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300 group-hover:text-white transition-colors">
+                          {student.rollNo || 'N/A'}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300 group-hover:text-white transition-colors">
+                          {student.admissionNo}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-white group-hover:text-blue-300 transition-colors">
+                          {student.name}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300 group-hover:text-white transition-colors">
+                          {student.githubUsername || 'N/A'}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold transition-all ${
+                            student.totalCommits > 0 
+                              ? 'bg-green-600/30 text-green-200 border border-green-500/50' 
+                              : 'bg-gray-600/30 text-gray-300 border border-gray-500/50'
+                          }`}>
+                            {student.totalCommits || 0}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300 group-hover:text-white transition-colors">
+                          {typeof student.totalLinesOfCode === 'number' ? student.totalLinesOfCode.toLocaleString() : '—'}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400 group-hover:text-gray-200 transition-colors">
+                          {student.recentCommit ? (
+                            <div>
+                              <p className="text-xs text-gray-400 truncate max-w-xs">
+                                {student.recentCommit.message}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                {formatDate(student.recentCommit.date)}
+                              </p>
+                            </div>
+                          ) : (
+                            <span className="text-gray-500">No commits</span>
+                          )}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          {student.githubRepo ? (
+                            <a
+                              href={student.githubRepo}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-400 hover:text-blue-300 flex items-center transition-colors group/link"
+                            >
+                              <ExternalLink className="h-4 w-4 mr-1 group-hover/link:translate-x-1 transition-transform" />
+                              View Repo
+                            </a>
+                          ) : (
+                            <span className="text-gray-500">No repository</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="lg:hidden space-y-4">
+                {filteredAndSortedStudents.map((student) => (
+                  <div
+                    key={student._id}
+                    className="bg-gradient-to-br from-slate-700/30 to-slate-800/30 backdrop-blur-sm rounded-xl p-4 border border-slate-600/50 hover:border-blue-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20"
+                  >
+                    {/* Header with name and status */}
+                    <div className="flex items-start justify-between mb-4 pb-4 border-b border-slate-600/30">
+                      <div className="flex-1">
+                        <h3 className="text-lg font-bold text-white mb-1">{student.name}</h3>
+                        <p className="text-sm text-gray-400">{student.admissionNo}</p>
+                      </div>
+                      <div className="ml-2">
                         {getStatusIcon(student)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {student.rollNo || 'N/A'}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {student.admissionNo}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {student.name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {student.githubUsername || 'N/A'}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      </div>
+                    </div>
+
+                    {/* Details Grid */}
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Roll No</p>
+                        <p className="text-sm text-gray-200 mt-1">{student.rollNo || 'N/A'}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">GitHub</p>
+                        <p className="text-sm text-gray-200 mt-1 truncate">{student.githubUsername || 'N/A'}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Commits</p>
+                        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold mt-1 ${
                           student.totalCommits > 0 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-gray-100 text-gray-800'
+                            ? 'bg-green-600/30 text-green-200 border border-green-500/50' 
+                            : 'bg-gray-600/30 text-gray-300 border border-gray-500/50'
                         }`}>
                           {student.totalCommits || 0}
                         </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {typeof student.totalLinesOfCode === 'number' ? student.totalLinesOfCode.toLocaleString() : '—'}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {student.recentCommit ? (
-                          <div>
-                            <p className="text-xs text-gray-500 truncate max-w-xs">
-                              {student.recentCommit.message}
-                            </p>
-                            <p className="text-xs text-gray-400">
-                              {formatDate(student.recentCommit.date)}
-                            </p>
-                          </div>
-                        ) : (
-                          <span className="text-gray-400">No commits</span>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                  {student.githubRepo ? (
-                                    <a
-                                      href={student.githubRepo}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="text-primary-600 hover:text-primary-900 flex items-center"
-                                    >
-                                      <ExternalLink className="h-4 w-4 mr-1" />
-                                      View Repo
-                                    </a>
-                                  ) : (
-                                    <span className="text-gray-400">No repository</span>
-                                  )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">LOC</p>
+                        <p className="text-sm text-gray-200 mt-1">
+                          {typeof student.totalLinesOfCode === 'number' ? student.totalLinesOfCode.toLocaleString() : '—'}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Recent Commit */}
+                    {student.recentCommit && (
+                      <div className="mb-4 pb-4 border-t border-slate-600/30">
+                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Last Commit</p>
+                        <p className="text-xs text-gray-300 truncate mb-1">{student.recentCommit.message}</p>
+                        <p className="text-xs text-gray-500">{formatDate(student.recentCommit.date)}</p>
+                      </div>
+                    )}
+
+                    {/* Actions */}
+                    <div className="flex gap-2 pt-4 border-t border-slate-600/30">
+                      {student.githubRepo ? (
+                        <a
+                          href={student.githubRepo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white rounded-lg font-semibold transition-all hover:shadow-lg"
+                        >
+                          <Github className="h-4 w-4" />
+                          <span>View Repo</span>
+                        </a>
+                      ) : (
+                        <div className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-gray-600/20 text-gray-400 rounded-lg font-semibold">
+                          <AlertCircle className="h-4 w-4" />
+                          <span>No Repo</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
       </div>

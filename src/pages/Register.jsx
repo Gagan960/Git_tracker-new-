@@ -90,21 +90,30 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <div className="flex justify-center">
-            <Github className="h-12 w-12 text-primary-600" />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      </div>
+
+      <div className="max-w-md w-full space-y-8 relative z-10">
+        <div className="text-center">
+          <div className="flex justify-center mb-6">
+            <div className="p-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl">
+              <Github className="h-12 w-12 text-white" />
+            </div>
           </div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="text-4xl font-bold text-white mb-2 text-gradient">
             Create your account
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <p className="text-gray-400 text-lg">
             Join GitHub Tracker to monitor your repositories
           </p>
         </div>
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-4">
+          <div className="space-y-6 bg-gradient-to-br from-slate-700/30 to-slate-800/30 backdrop-blur-sm rounded-2xl p-8 border border-slate-600/50">
             <div>
               <label htmlFor="name" className="label">
                 Full Name
@@ -165,26 +174,26 @@ const Register = () => {
                   name="githubUsername"
                   type="text"
                   required
-                  className={`input pr-10 ${
-                    usernameValid === true ? 'border-green-500' : 
-                    usernameValid === false ? 'border-red-500' : ''
+                  className={`input pr-12 ${
+                    usernameValid === true ? 'border-green-500/50 focus:ring-green-500' : 
+                    usernameValid === false ? 'border-red-500/50 focus:ring-red-500' : ''
                   }`}
                   placeholder="Enter your GitHub username"
                   value={formData.githubUsername}
                   onChange={handleUsernameChange}
                 />
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
                   {validatingUsername ? (
                     <div className="spinner"></div>
                   ) : usernameValid === true ? (
-                    <CheckCircle className="h-5 w-5 text-green-500" />
+                    <CheckCircle className="h-5 w-5 text-green-400" />
                   ) : usernameValid === false ? (
-                    <XCircle className="h-5 w-5 text-red-500" />
+                    <XCircle className="h-5 w-5 text-red-400" />
                   ) : null}
                 </div>
               </div>
               {usernameValid === false && (
-                <p className="mt-1 text-sm text-red-600">
+                <p className="mt-2 text-sm text-red-400">
                   GitHub username not found
                 </p>
               )}
@@ -201,20 +210,20 @@ const Register = () => {
                   type={showPassword ? 'text' : 'password'}
                   autoComplete="new-password"
                   required
-                  className="input pr-10"
-                  placeholder="Enter your password"
+                  className="input pr-12"
+                  placeholder="Enter your password (min 6 chars)"
                   value={formData.password}
                   onChange={handleChange}
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-300 transition-colors"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-gray-400" />
+                    <EyeOff className="h-5 w-5" />
                   ) : (
-                    <Eye className="h-5 w-5 text-gray-400" />
+                    <Eye className="h-5 w-5" />
                   )}
                 </button>
               </div>
@@ -231,46 +240,47 @@ const Register = () => {
                   type={showConfirmPassword ? 'text' : 'password'}
                   autoComplete="new-password"
                   required
-                  className="input pr-10"
+                  className="input pr-12"
                   placeholder="Confirm your password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-300 transition-colors"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                   {showConfirmPassword ? (
-                    <EyeOff className="h-5 w-5 text-gray-400" />
+                    <EyeOff className="h-5 w-5" />
                   ) : (
-                    <Eye className="h-5 w-5 text-gray-400" />
+                    <Eye className="h-5 w-5" />
                   )}
                 </button>
               </div>
             </div>
           </div>
 
-          <div>
-            <button
-              type="submit"
-              disabled={loading || usernameValid !== true}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? (
-                <div className="spinner"></div>
-              ) : (
-                'Create account'
-              )}
-            </button>
-          </div>
+          <button
+            type="submit"
+            disabled={loading || usernameValid !== true}
+            className="w-full btn btn-primary justify-center group relative flex items-center"
+          >
+            {loading ? (
+              <>
+                <div className="spinner mr-2"></div>
+                <span>Creating account...</span>
+              </>
+            ) : (
+              'Create account'
+            )}
+          </button>
 
-          <div className="text-center">
-            <p className="text-sm text-gray-600">
+          <div className="text-center pt-4 border-t border-slate-600/50">
+            <p className="text-sm text-gray-400">
               Already have an account?{' '}
               <Link
                 to="/login"
-                className="font-medium text-primary-600 hover:text-primary-500"
+                className="font-semibold text-purple-400 hover:text-purple-300 transition-colors"
               >
                 Sign in here
               </Link>

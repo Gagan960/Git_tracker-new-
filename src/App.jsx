@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Home from './pages/Home';
 import SectionPage from './pages/SectionPage';
+import TopPerformers from './pages/TopPerformers';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/section/:sectionId" element={<SectionPage />} />
+          <Route path="/top-performers/:sectionId" element={<TopPerformers />} />
         </Routes>
       </div>
     </Router>

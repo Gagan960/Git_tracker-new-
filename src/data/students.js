@@ -1597,8 +1597,8 @@ export const itDStudents = [{
       "rollNo": null,
       "admissionNo": "2023B0211039",
       "name": "AASTHA SAHU",
-      "githubRepo": null,
-      "githubUsername": null
+      "githubRepo": "https://github.com/Aastha-1005/FSD__javascript",
+      "githubUsername": "Aastha-1005"
     },
     {
       "sno": 2,
@@ -1613,7 +1613,7 @@ export const itDStudents = [{
       "rollNo": "2300320130013",
       "admissionNo": "2023B0131258",
       "name": "ABHISHEK GOND",
-      "githubRepo": "https://github.com/abhishek-gond/HTML-fsd-",
+      "githubRepo": "https://github.com/abhishek-gond/FSD-5TH-SEM",
       "githubUsername": "abhishek-gond"
     },
     {
@@ -1685,7 +1685,7 @@ export const itDStudents = [{
       "rollNo": "2300320130062",
       "admissionNo": "2023B0131132",
       "name": "ARCHANA SINGH",
-      "githubRepo": "git@github.com:Archana8957/FSD_Sem5.git",
+      "githubRepo": "https://github.com/Archana8957/FSD_Sem5",
       "githubUsername": "Archana8957"
     },
     {
@@ -1709,7 +1709,7 @@ export const itDStudents = [{
       "rollNo": "2300320130091",
       "admissionNo": "2023B0131149",
       "name": "DHROOV MAURYA",
-      "githubRepo": "https://github.com/Dhroov09",
+      "githubRepo": "https://github.com/Dhroov09/College_Development",
       "githubUsername": "Dhroov09"
     },
     {
@@ -1717,7 +1717,7 @@ export const itDStudents = [{
       "rollNo": "2300320130099",
       "admissionNo": "2023B0131276",
       "name": "DIVYANSHI AGARWAL",
-      "githubRepo": "https://github.com/divyanshi220106",
+      "githubRepo": "https://github.com/divyanshi220106/Sem-5-Frontend-",
       "githubUsername": "divyanshi220106"
     },
     {
@@ -1789,7 +1789,7 @@ export const itDStudents = [{
       "rollNo": "2300320130146",
       "admissionNo": "2023B0131145",
       "name": "MANVI DUTT",
-      "githubRepo": "https://github.com/Manvixdutt",
+      "githubRepo": "https://github.com/manvixdutt/fsd_5sem",
       "githubUsername": "Manvixdutt"
     },
     {
@@ -1821,7 +1821,7 @@ export const itDStudents = [{
       "rollNo": null,
       "admissionNo": "2023B0211057",
       "name": "NETRA TYAGI",
-      "githubRepo": "https://github.com/netra444",
+      "githubRepo": "https://github.com/Netra444/FSD",
       "githubUsername": "netra444"
     },
     {
@@ -1829,7 +1829,7 @@ export const itDStudents = [{
       "rollNo": "2300320130164",
       "admissionNo": "2023B0131003",
       "name": "NIPUN MALIK",
-      "githubRepo": "https://github.com/Manjiro-2017",
+      "githubRepo": "https://github.com/Manjiro-2017/fsd-training-5th",
       "githubUsername": "Manjiro-2017"
     },
     {
@@ -1837,7 +1837,7 @@ export const itDStudents = [{
       "rollNo": "2300320130165",
       "admissionNo": "2023B0131077",
       "name": "NISHA",
-      "githubRepo": "https://github.com/nisha1608",
+      "githubRepo": "https://github.com/Nisha1608/FSD-SEM-5",
       "githubUsername": "nisha1608"
     },
     {
