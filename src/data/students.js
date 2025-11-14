@@ -480,8 +480,8 @@ export const csStudents = [
     rollNo: "2300320120054",
     admissionNo: "2023B0121161",
     name: "Anshika Sharma",
-    githubRepo: null,
-    githubUsername: null
+    githubRepo: "https://github.com/Anshika231005/ABES_EC_CS_C_FSD_ANSHIKASHARMA",
+    githubUsername: "Anshika231005"
   },
   {
     rollNo: "2300320120079",
@@ -522,15 +522,15 @@ export const csStudents = [
     rollNo: "2300320120236",
     admissionNo: "2023B0121209",
     name: "Shivam Gupta",
-    githubRepo: null,
-    githubUsername: null
+    githubRepo: "https://github.com/Shivamgupta1234-png/ABES_EC_CS_C_FSD_SHIVAM_GUPTA",
+    githubUsername: "Shivamgupta1234-png"
   },
   {
     rollNo: "2300320120250",
     admissionNo: "2023B0121303",
     name: "Sonal Shrivastava",
-    githubRepo: null,
-    githubUsername: null
+    githubRepo: "https://github.com/shrivastavasonal62-oss/abes-CS-C/tree/main/abes-CS--C-main",
+    githubUsername: "shrivastavasonal62-oss"
   },
   {
     rollNo: "2300320120277",
@@ -543,8 +543,8 @@ export const csStudents = [
     rollNo: "2400320129016",
     admissionNo: "2024B01230004",
     name: "Vaibhav Rohila",
-    githubRepo: null,
-    githubUsername: null
+    githubRepo:"https://github.com/Vaibhavrohila/abes-cs",
+    githubUsername: "Vaibhavrohila"
   }
 ];
 
