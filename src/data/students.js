@@ -360,7 +360,7 @@ export const csStudents = [
     rollNo: "2300320120239",
     admissionNo: "2023B0121250",
     name: "Shivangi",
-    githubRepo: "https://github.com/ShivangiSingh730/-ABES_EC_CS_C_FSD_Shivangi",
+    githubRepo: "https://github.com/ShivangiSingh730/FSD_Training-ABESEC-C",
     githubUsername: "ShivangiSingh730"
   },
   {
