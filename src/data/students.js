@@ -988,7 +988,7 @@ export const cseDsStudents = [
     "rollNo": "2300321540004",
     "admissionNo": "2023B1541125",
     "name": "ABHISHEK AGARWAL",
-    "githubRepo": "https://github.com/agarwalxabhishek/abhishek06",
+    "githubRepo": "https://github.com/agarwalxabhishek/Abhishek_Git",
     "githubUsername": "agarwalxabhishek"
   },
   {
@@ -1004,7 +1004,7 @@ export const cseDsStudents = [
     "rollNo": "2300321540009",
     "admissionNo": "2023B1541121",
     "name": "ABHISHEK VIKRAM SINGH",
-    "githubRepo": "https://github.com/whoabhi/day-4",
+    "githubRepo": "https://github.com/whoabhi/FSD",
     "githubUsername": "whoabhi"
   },
   {
@@ -1084,7 +1084,7 @@ export const cseDsStudents = [
     "rollNo": "2300321540040",
     "admissionNo": "2023B1541214",
     "name": "ANUJ CHAUHAN",
-    "githubRepo": "amplebass69/ABES_EC_CSE_DS_C-Anuj_chauhan",
+    "githubRepo": " https://github.com/ABESEC-2025-5th-sem/timetable-amplebass69 ",
     "githubUsername": "amplebass69"
   },
   {
@@ -1300,7 +1300,7 @@ export const cseDsStudents = [
     "rollNo": "2300321540145",
     "admissionNo": "2023B1541167",
     "name": "RAJAT VERMA",
-    "githubRepo": "https://github.com/rv583782-cmyk/cse-ds",
+    "githubRepo": "https://github.com/rv583782-cmyk/fsd-5th-sem",
     "githubUsername": "rv583782-cmyk"
   },
   {
@@ -1444,8 +1444,8 @@ export const cseDsStudents = [
     "rollNo": "2300321540052",
     "admissionNo": "2023B1541101",
     "name": "ASHUTOSH KUMAR",
-    "githubRepo": null,
-    "githubUsername": null
+    "githubRepo": "https://github.com/ABESEC-2025-5th-sem/timetable-ashutosh-0312",
+    "githubUsername": "ashutosh-0312"
   },
   {
     "sno": 24,
@@ -1460,7 +1460,7 @@ export const cseDsStudents = [
     "rollNo": "2300321540067",
     "admissionNo": "2023B1541115",
     "name": "DEEPAK DUBEY",
-    "githubRepo": null,
+    "githubRepo": "https://github.com/ABESEC-2025-5th-sem/timetable-deepak-o4",
     "githubUsername": null
   },
   {
@@ -1468,8 +1468,8 @@ export const cseDsStudents = [
     "rollNo": "2300321540084",
     "admissionNo": "2023B1541023",
     "name": "GARGI ARYA",
-    "githubRepo": null,
-    "githubUsername": null
+    "githubRepo": "https://github.com/gargiarya027/FSD",
+    "githubUsername": "gargiarya027"
   },
   {
     "sno": 42,
@@ -1492,8 +1492,8 @@ export const cseDsStudents = [
     "rollNo": "2300321540127",
     "admissionNo": "2023B1541076",
     "name": "NISHA KUMARI",
-    "githubRepo": null,
-    "githubUsername": null
+    "githubRepo": "https://github.com/ABESEC-2025-5th-sem/timetable-niiishahac",
+    "githubUsername": "niiishahac"
   },
   {
     "sno": 49,
@@ -1524,8 +1524,8 @@ export const cseDsStudents = [
     "rollNo": "2300321540160",
     "admissionNo": "2023B1541190",
     "name": "SAKSHI SRIVASTAVA",
-    "githubRepo": null,
-    "githubUsername": null
+    "githubRepo": "https://github.com/sakshisrivas09/webdev",
+    "githubUsername": "sakshisrivas09"
   },
   {
     "sno": 61,
@@ -1564,16 +1564,16 @@ export const cseDsStudents = [
     "rollNo": "2300321540192",
     "admissionNo": "2023B1541155",
     "name": "TANU CHAUDHARY",
-    "githubRepo": null,
-    "githubUsername": null
+    "githubRepo": "https://github.com/tanu-star/classfsd",
+    "githubUsername": "tanu-star"
   },
   {
     "sno": 73,
     "rollNo": "2300321540195",
     "admissionNo": "2023B1541185",
     "name": "TEJAS KUMAR",
-    "githubRepo": null,
-    "githubUsername": null
+    "githubRepo": "https://github.com/Tejas032005/abes-csds-c",
+    "githubUsername": "Tejas032005"
   },
   {
     "sno": 75,
